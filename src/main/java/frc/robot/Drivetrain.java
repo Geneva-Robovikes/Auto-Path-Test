@@ -15,14 +15,13 @@ import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
+    ADIS16448_IMU gyro = new ADIS16448_IMU();
 
     TalonFX leftMaster = new TalonFX(0);
     TalonFX rightMaster = new TalonFX(2);
 
     TalonFX leftSlave = new TalonFX(1);
     TalonFX rightSlave = new TalonFX(3);
-
-    ADIS16448_IMU gyro = new ADIS16448_IMU();
 
     DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22.75));
     DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading(), new Pose2d());
@@ -50,8 +49,8 @@ public class Drivetrain extends SubsystemBase {
 
     public DifferentialDriveWheelSpeeds getSpeeds() {
         return new DifferentialDriveWheelSpeeds(
-            leftMaster.getSelectedSensorVelocity() / 2048 / 10.71 * 2 * Math.PI * Units.inchesToMeters(3) * 10,
-            rightMaster.getSelectedSensorVelocity() / 2048 / 10.71 * 2 * Math.PI * Units.inchesToMeters(3) * 10
+            leftMaster.getSelectedSensorVelocity() / 2048 / 10.71 * .3 * Math.PI * Units.inchesToMeters(3) * 10,
+            rightMaster.getSelectedSensorVelocity() / 2048 / 10.71 * .3 * Math.PI * Units.inchesToMeters(3) * 10
         );
     }
 
@@ -64,8 +63,8 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void setOutput(double leftVolts, double rightVolts) {
-        leftMaster.set(ControlMode.PercentOutput, leftVolts / 12);
-        rightMaster.set(ControlMode.PercentOutput, rightVolts / 12);
+        leftMaster.set(ControlMode.PercentOutput, 1 * leftVolts / 12);
+        rightMaster.set(ControlMode.PercentOutput, 1 * rightVolts / 12);
     }
 
     public PIDController getRightPIDController() {
